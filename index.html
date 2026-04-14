@@ -1,148 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adiantei — Pesquisa de Validação</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --blue:        #1D6FED;
-    --navy:        #0D1F3C;
-    --green:       #1D9E75;
-    --offwhite:    #F5F7FA;
-    --white:       #FFFFFF;
-    --border:      #DDE3ED;
-    --muted:       #6B7A99;
-    --mid:         #3D4F6E;
-    --blue-tint:   #EBF3FE;
-    --green-tint:  #E8F7F2;
-    --error:       #E53E3E;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--offwhite);
-    color: var(--navy);
-    min-height: 100vh;
-    padding: 0 0 80px;
-  }
-
-  /* ── HERO ── */
-  .hero {
-    background: var(--navy);
-    padding: 44px 24px 40px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 70% 0%, rgba(29,111,237,0.25) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -1px; left: 0; right: 0;
-    height: 28px;
-    background: var(--offwhite);
-    border-radius: 28px 28px 0 0;
-  }
-
-  .hero-wordmark {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 800;
-    font-size: 24px;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    margin-bottom: 24px;
-    position: relative;
-  }
-  .hero-wordmark span { color: var(--blue); }
-
-  .hero-badge {
-    display: inline-block;
-    background: rgba(29,111,237,0.18);
-    border: 1px solid rgba(29,111,237,0.35);
-    color: #7FBAFF;
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-bottom: 16px;
-    position: relative;
-  }
-
-  .hero h1 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 700;
-    font-size: 26px;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    line-height: 1.2;
-    margin-bottom: 10px;
-    position: relative;
-  }
-
-  .hero p {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    color: rgba(255,255,255,0.55);
-    max-width: 320px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  /* ── SELECTOR ── */
-  .selector {
-    max-width: 560px;
-    margin: 0 auto;
-    padding: 28px 20px 8px;
-  }
-  .selector-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-align: center;
-    margin-bottom: 12px;
-  }
-  .selector-tabs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .tab-btn {
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 20px 16px;
-    cursor: pointer;
-    transition: all 0.18s;
-    text-align: center;
-  }
-  .tab-btn:hover { border-color: var(--blue); }
-  .tab-btn.active {
-    border-color: var(--blue);
-    background: var(--blue-tint);
-  }
-  .tab-title {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--navy);
-    letter-spacing: -0.01em;
-  }
-  .tab-sub {
-    font-family: 'Inter', sans-serif;
+/* Mensagem de Erro */
+.error-message {
+  color: var(--error);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: none; /* Escondido por padrão */
+  text-align: center;
+  background: #FFF5F5;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #FED7D7;
+}
+.error-message.visible {
+  display: block;
+  animation: shake 0.4s;
+}
