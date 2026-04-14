@@ -763,12 +763,15 @@
   // CONFIGURAÇÃO — cole aqui a URL do seu Google Apps Script
   // Siga as instruções no comentário no final deste arquivo
   // ─────────────────────────────────────────────────────────────
-  const SHEETS_URL = https://script.google.com/macros/s/AKfycbzicWV3E2pjO_eC9CstlLIqyLTwgNWEbOqINd-9muNEf3L9fNppcVdm-WKSwsg40VQS/exec;
+  const SHEETS_URL = 'COLE_AQUI_A_URL_DO_SEU_APPS_SCRIPT';
 
   const state = {
     empresa:     { answers: {} },
     funcionario: { answers: {} }
   };
+
+  // Auto-select first tab on load
+  window.addEventListener('DOMContentLoaded', () => selectTab('empresa'));
 
   function selectTab(type) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -788,14 +791,23 @@
     }
   }
 
+  function getOptionText(btn) {
+    // Read only the text node directly inside the button, ignoring the radio div
+    return Array.from(btn.childNodes)
+      .filter(n => n.nodeType === 3)
+      .map(n => n.textContent.trim())
+      .filter(t => t.length > 0)
+      .join('');
+  }
+
   function saveAnswer(prefix, current) {
-    const cardId = prefix + '-q' + current;
-    const card   = document.getElementById(cardId);
-    const key    = prefix === 'emp' ? 'empresa' : 'funcionario';
-    const sel    = card.querySelector('.option.selected');
+    const cardId  = prefix + '-q' + current;
+    const card    = document.getElementById(cardId);
+    const key     = prefix === 'emp' ? 'empresa' : 'funcionario';
+    const sel     = card.querySelector('.option.selected');
     if (!sel) return;
     const otherEl = document.getElementById(cardId + '-other');
-    let answer = sel.textContent.trim();
+    let answer    = getOptionText(sel) || sel.textContent.replace(/\s+/g, ' ').trim();
     if (sel.classList.contains('outro-trigger') && otherEl && otherEl.value.trim()) {
       answer = 'Outro: ' + otherEl.value.trim();
     }
@@ -804,11 +816,12 @@
 
   function nextCard(prefix, current, total) {
     saveAnswer(prefix, current);
-    document.getElementById(prefix + '-q' + current).classList.remove('visible');
-    const next = current + 1;
-    if (next <= total) {
-      document.getElementById(prefix + '-q' + next).classList.add('visible');
-      updateProgress(prefix, next, total);
+    const cur  = document.getElementById(prefix + '-q' + current);
+    const next = document.getElementById(prefix + '-q' + (current + 1));
+    if (cur)  cur.classList.remove('visible');
+    if (next && current + 1 <= total) {
+      next.classList.add('visible');
+      updateProgress(prefix, current + 1, total);
     }
   }
 
