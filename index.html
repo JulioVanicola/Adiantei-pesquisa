@@ -489,6 +489,18 @@
       return; 
     }
 
+    if(current === 1) {
+      document.getElementById('main-selector').classList.add('locked');
+    }
+
+    card.classList.remove('visible');
+    const next = document.getElementById(prefix + '-q' + (current + 1));
+    if (next) {
+      next.classList.add('visible');
+      updateProgress(prefix, current + 1, total);
+      // Removido o window.scrollTo para manter a posição atual
+    }
+  }
     // BLOQUEIA O SELETOR AO AVANÇAR DA Q1
     if(current === 1) {
       document.getElementById('main-selector').classList.add('locked');
