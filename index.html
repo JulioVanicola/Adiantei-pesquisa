@@ -1,17 +1,446 @@
-/* Mensagem de Erro */
-.error-message {
-  color: var(--error);
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  display: none; /* Escondido por padrão */
-  text-align: center;
-  background: #FFF5F5;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #FED7D7;
-}
-.error-message.visible {
-  display: block;
-  animation: shake 0.4s;
-}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adiantei — Pesquisa de Validação</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:        #1D6FED;
+    --navy:        #0D1F3C;
+    --green:       #1D9E75;
+    --offwhite:    #F5F7FA;
+    --white:       #FFFFFF;
+    --border:      #DDE3ED;
+    --muted:       #6B7A99;
+    --mid:         #3D4F6E;
+    --blue-tint:   #EBF3FE;
+    --green-tint:  #E8F7F2;
+    --error:       #E53E3E;
+    --error-bg:    #FFF5F5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--offwhite);
+    color: var(--navy);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 44px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 28px;
+    background: var(--offwhite);
+    border-radius: 28px 28px 0 0;
+  }
+
+  .hero-wordmark {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .hero-wordmark span { color: var(--blue); }
+
+  .hero h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .hero p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    max-width: 320px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ── SELECTOR ── */
+  .selector {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 28px 20px 8px;
+  }
+  .selector-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .tab-btn {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: center;
+  }
+  .tab-btn.active {
+    border-color: var(--blue);
+    background: var(--blue-tint);
+  }
+  .tab-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .tab-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  /* ── FORM CONTAINER ── */
+  .form-container {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 8px 20px 0;
+  }
+  .form-panel { display: none; }
+  .form-panel.active { display: block; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap { margin-bottom: 20px; }
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .progress-label, .progress-count {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .progress-bar-bg {
+    height: 4px;
+    background: var(--border);
+    border-radius: 10px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--blue);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    margin-bottom: 12px;
+    display: none;
+    transition: all 0.3s;
+  }
+  .q-card.visible { display: block; }
+  
+  /* Erro e Animação */
+  .q-card.invalid { border-color: var(--error); animation: shake 0.4s ease-in-out; }
+  
+  .error-message {
+    display: none;
+    background: var(--error-bg);
+    color: var(--error);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+    border: 1px solid #FED7D7;
+  }
+  .error-message.visible { display: block; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .q-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.4;
+    margin-bottom: 18px;
+  }
+
+  /* ── OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    background: var(--white);
+    text-align: left;
+  }
+  .option.selected {
+    border-color: var(--blue);
+    background: var(--blue-tint);
+    font-weight: 500;
+  }
+  .option-radio {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+  }
+  .option.selected .option-radio {
+    border-color: var(--blue);
+    background: var(--blue);
+    box-shadow: inset 0 0 0 3px var(--blue-tint);
+  }
+
+  /* ── INPUTS (Anti-zoom iOS) ── */
+  .other-input, .short-input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 16px; 
+    margin-top: 10px;
+  }
+  .other-input { display: none; }
+  .other-input.visible { display: block; }
+
+  /* ── NAV ── */
+  .nav-btns { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-back {
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: white;
+    cursor: pointer;
+  }
+  .btn-next {
+    flex: 1;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: var(--blue);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .thankyou { display: none; text-align: center; padding: 40px 20px; }
+  .thankyou.visible { display: block; }
+  .disclaimer { font-size: 11px; color: var(--muted); text-align: center; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-wordmark">adiantei<span>.</span></div>
+  <h1>Valide sua ideia</h1>
+  <p>Sua opinião ajuda a transformar o mercado.</p>
+</div>
+
+<div class="selector">
+  <div class="selector-tabs">
+    <div class="tab-btn" id="tab-empresa" onclick="selectTab('empresa')">
+      <div class="tab-title">Sou Empresa</div>
+    </div>
+    <div class="tab-btn" id="tab-funcionario" onclick="selectTab('funcionario')">
+      <div class="tab-title">Sou Funcionário</div>
+    </div>
+  </div>
+</div>
+
+<div class="form-container">
+
+  <div class="form-panel" id="form-empresa">
+    <div class="progress-wrap">
+      <div class="progress-top"><span class="progress-count" id="emp-progress-count">1 de 3</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="emp-progress-bar" style="width:33%"></div></div>
+    </div>
+
+    <div class="q-card visible" id="emp-q1">
+      <div class="q-title">Qual o setor da sua empresa?</div>
+      <div class="options">
+        <button class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Comércio / Varejo</button>
+        <button class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Indústria</button>
+        <button class="option outro-trigger" onclick="selectOption(this,'emp-q1',true)"><div class="option-radio"></div>Outro</button>
+      </div>
+      <input type="text" class="other-input" id="emp-q1-other" placeholder="Escreva o setor...">
+      <div class="error-message">Ops! Selecione uma opção acima.</div>
+      <div class="nav-btns"><button class="btn-next" onclick="nextCard('emp',1,3)">Próxima</button></div>
+    </div>
+
+    <div class="q-card" id="emp-q2">
+      <div class="q-title">Você já faz adiantamentos de salário hoje?</div>
+      <div class="options">
+        <button class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>Sim, com frequência</button>
+        <button class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>Raramente</button>
+        <button class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>Não, nunca</button>
+      </div>
+      <div class="error-message">Por favor, escolha uma resposta.</div>
+      <div class="nav-btns">
+        <button class="btn-back" onclick="prevCard('emp',2)">Voltar</button>
+        <button class="btn-next" onclick="nextCard('emp',2,3)">Próxima</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="emp-q3">
+      <div class="q-title">Quer ser avisado do lançamento?</div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:10px;">Opcional - WhatsApp</p>
+      <input type="tel" class="short-input" id="emp-phone" placeholder="(00) 00000-0000">
+      <div class="nav-btns">
+        <button class="btn-back" onclick="prevCard('emp',3)">Voltar</button>
+        <button class="btn-next" id="emp-submit" onclick="submitForm('empresa')">Concluir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-panel" id="form-funcionario">
+    <div class="progress-wrap">
+      <div class="progress-top"><span class="progress-count" id="fun-progress-count">1 de 2</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="fun-progress-bar" style="width:50%"></div></div>
+    </div>
+
+    <div class="q-card visible" id="fun-q1">
+      <div class="q-title">Você gostaria de receber seu salário por dia trabalhado?</div>
+      <div class="options">
+        <button class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Sim, ajudaria muito</button>
+        <button class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Talvez, dependendo da taxa</button>
+        <button class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Não tenho interesse</button>
+      </div>
+      <div class="error-message">Selecione uma opção para continuar.</div>
+      <div class="nav-btns"><button class="btn-next" onclick="nextCard('fun',1,2)">Próxima</button></div>
+    </div>
+
+    <div class="q-card" id="fun-q2">
+      <div class="q-title">Deixe seu contato (Opcional)</div>
+      <input type="tel" class="short-input" id="fun-phone" placeholder="Seu WhatsApp">
+      <div class="nav-btns">
+        <button class="btn-back" onclick="prevCard('fun',2)">Voltar</button>
+        <button class="btn-next" id="fun-submit" onclick="submitForm('funcionario')">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="thankyou" id="thank-msg">
+    <h2>Obrigado!</h2>
+    <p>Suas respostas foram registradas.</p>
+  </div>
+
+</div>
+
+<script>
+  const SHEETS_URL = "SUA_URL_AQUI"; // Substitua pela sua URL
+
+  function selectTab(type) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + type).classList.add('active');
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('form-' + type).classList.add('active');
+  }
+
+  function selectOption(btn, cardId, isOther) {
+    const card = document.getElementById(cardId);
+    card.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    btn.classList.add('selected');
+    
+    // Esconde o erro assim que ele seleciona algo
+    const errorMsg = card.querySelector('.error-message');
+    if (errorMsg) errorMsg.classList.remove('visible');
+    card.classList.remove('invalid');
+
+    const otherEl = document.getElementById(cardId + '-other');
+    if (otherEl) {
+      if (isOther) { otherEl.classList.add('visible'); otherEl.focus(); }
+      else { otherEl.classList.remove('visible'); otherEl.value = ''; }
+    }
+  }
+
+  function nextCard(prefix, current, total) {
+    const cardId = prefix + '-q' + current;
+    const card = document.getElementById(cardId);
+    const selected = card.querySelector('.option.selected');
+    const otherInput = document.getElementById(cardId + '-other');
+    const errorMsg = card.querySelector('.error-message');
+    
+    let isValid = false;
+
+    // Se houver opção selecionada
+    if (selected) {
+      if (selected.classList.contains('outro-trigger')) {
+        // Se for 'Outro', o input de texto não pode estar vazio
+        if (otherInput && otherInput.value.trim() !== "") isValid = true;
+      } else {
+        isValid = true;
+      }
+    }
+
+    if (!isValid) {
+      // MOSTRA ERRO E TREME
+      if (errorMsg) errorMsg.classList.add('visible');
+      card.classList.add('invalid');
+      setTimeout(() => card.classList.remove('invalid'), 500);
+      return; 
+    }
+
+    // Avançar
+    card.classList.remove('visible');
+    const next = document.getElementById(prefix + '-q' + (current + 1));
+    if (next) {
+      next.classList.add('visible');
+      updateProgress(prefix, current + 1, total);
+    }
+  }
+
+  function prevCard(prefix, current) {
+    document.getElementById(prefix + '-q' + current).classList.remove('visible');
+    document.getElementById(prefix + '-q' + (current - 1)).classList.add('visible');
+  }
+
+  function updateProgress(prefix, current, total) {
+    document.getElementById(prefix + '-progress-bar').style.width = (current / total * 100) + '%';
+    document.getElementById(prefix + '-progress-count').textContent = current + ' de ' + total;
+  }
+
+  function submitForm(type) {
+    const prefix = type === 'empresa' ? 'emp' : 'fun';
+    const btn = document.getElementById(prefix + '-submit');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    // Aqui você coletaria as respostas (conforme o código anterior) e enviaria via fetch
+    // Como é um exemplo, vamos direto para o agradecimento
+    setTimeout(() => {
+      document.getElementById('form-' + type).style.display = 'none';
+      document.querySelector('.selector').style.display = 'none';
+      document.getElementById('thank-msg').classList.add('visible');
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>
