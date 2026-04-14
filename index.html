@@ -86,6 +86,11 @@
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
+  .selector-tabs.locked {
+    opacity: 0.5;
+    pointer-events: none; /* Impede cliques */
+    filter: grayscale(0.5);
+  }
   .tab-btn {
     background: var(--white);
     border: 1.5px solid var(--border);
@@ -126,7 +131,7 @@
     justify-content: space-between;
     margin-bottom: 8px;
   }
-  .progress-label, .progress-count {
+  .progress-count {
     font-size: 12px;
     font-weight: 600;
   }
@@ -154,7 +159,6 @@
   }
   .q-card.visible { display: block; }
   
-  /* Erro e Animação */
   .q-card.invalid { border-color: var(--error); animation: shake 0.4s ease-in-out; }
   
   .error-message {
@@ -269,7 +273,6 @@
 
   .thankyou { display: none; text-align: center; padding: 48px 20px; }
   .thankyou.visible { display: block; }
-  .disclaimer { font-size: 11px; color: var(--muted); text-align: center; margin-top: 24px; }
 </style>
 </head>
 <body>
@@ -281,7 +284,7 @@
 </div>
 
 <div class="selector">
-  <div class="selector-tabs">
+  <div class="selector-tabs" id="main-selector">
     <div class="tab-btn" id="tab-empresa" onclick="selectTab('empresa')">
       <div class="tab-title">Dono de empresa</div>
       <div class="tab-sub">Tenho funcionários</div>
@@ -313,7 +316,7 @@
         <button class="option outro-trigger" onclick="selectOption(this,'emp-q1',true)"><div class="option-radio"></div>Outro</button>
       </div>
       <input type="text" class="other-input" id="emp-q1-other" placeholder="Qual setor?">
-      <div class="error-message">Por favor, selecione uma opção.</div>
+      <div class="error-message">Selecione uma opção para continuar.</div>
       <div class="nav-btns"><button class="btn-next" onclick="nextCard('emp',1,8)">Próxima</button></div>
     </div>
 
@@ -376,7 +379,6 @@
     <div class="q-card" id="emp-q6">
       <div class="q-step">Pergunta 6 de 8</div>
       <div class="q-title">Ofereceria o benefício de saque do salário ganho sem custo para você?</div>
-      <div class="q-hint">App direto para o funcionário, sem impacto no seu caixa.</div>
       <div class="options">
         <button class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Sim, com certeza</button>
         <button class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Provavelmente sim</button>
@@ -426,7 +428,7 @@
         <button class="option outro-trigger" onclick="selectOption(this,'fun-q1',true)"><div class="option-radio"></div>Outro</button>
       </div>
       <input type="text" class="other-input" id="fun-q1-other" placeholder="Qual setor?">
-      <div class="error-message">Selecione uma opção.</div>
+      <div class="error-message">Selecione uma opção para continuar.</div>
       <div class="nav-btns"><button class="btn-next" onclick="nextCard('fun',1,8)">Próxima</button></div>
     </div>
 
@@ -487,7 +489,6 @@
     <div class="q-card" id="fun-q6">
       <div class="q-step">Pergunta 6 de 8</div>
       <div class="q-title">E se pudesse sacar seu salário ganho direto por um app?</div>
-      <div class="q-hint">Sem falar com o chefe, dinheiro na hora.</div>
       <div class="options">
         <button class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Usaria com certeza</button>
         <button class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Provavelmente sim</button>
@@ -521,20 +522,17 @@
   </div>
 
   <div class="thankyou" id="thank-msg">
-    <div style="background:var(--green-tint); width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
-      <svg viewBox="0 0 24 24" width="32" height="32" stroke="var(--green)" stroke-width="3" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
-    </div>
-    <h2>Recebido com sucesso!</h2>
+    <h2>Recebido!</h2>
     <p>Obrigado por ajudar a construir o Adiantei.</p>
   </div>
-
 </div>
 
 <script>
-  // COLOQUE SUA URL DO GOOGLE APPS SCRIPT AQUI
-  const SHEETS_URL = "SUA_URL_AQUI";
-
   function selectTab(type) {
+    // Só permite trocar se não estiver bloqueado
+    const selector = document.getElementById('main-selector');
+    if(selector.classList.contains('locked')) return;
+
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + type).classList.add('active');
     document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
@@ -546,7 +544,6 @@
     card.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
     btn.classList.add('selected');
     
-    // Esconde o erro e remove tremor ao selecionar
     const errorMsg = card.querySelector('.error-message');
     if (errorMsg) errorMsg.classList.remove('visible');
     card.classList.remove('invalid');
@@ -567,7 +564,7 @@
     
     let isValid = false;
 
-    // Se houver opção selecionada
+    // Validação
     if (selected) {
       if (selected.classList.contains('outro-trigger')) {
         if (otherInput && otherInput.value.trim() !== "") isValid = true;
@@ -580,7 +577,12 @@
       if (errorMsg) errorMsg.classList.add('visible');
       card.classList.add('invalid');
       setTimeout(() => card.classList.remove('invalid'), 500);
-      return; // BLOQUEIA O AVANÇO
+      return; 
+    }
+
+    // BLOQUEIO DO SELETOR: Ao avançar da primeira pergunta, trava o tipo de usuário
+    if(current === 1) {
+      document.getElementById('main-selector').classList.add('locked');
     }
 
     // Avançar
@@ -597,6 +599,10 @@
     document.getElementById(prefix + '-q' + current).classList.remove('visible');
     document.getElementById(prefix + '-q' + (current - 1)).classList.add('visible');
     updateProgress(prefix, current - 1, 8);
+    
+    // Se voltar para a primeira e quiser permitir trocar de perfil de novo:
+    // (Descomente a linha abaixo se quiser que ele destrave ao voltar pro início)
+    // if(current === 2) document.getElementById('main-selector').classList.remove('locked');
   }
 
   function updateProgress(prefix, current, total) {
@@ -610,7 +616,6 @@
     btn.textContent = 'Enviando...';
     btn.disabled = true;
 
-    // Simulação de envio
     setTimeout(() => {
       document.getElementById('form-' + type).style.display = 'none';
       document.querySelector('.selector').style.display = 'none';
