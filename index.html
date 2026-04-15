@@ -73,6 +73,8 @@
 
     /* ── SELECTOR ── */
     .selector {
+      position: relative; /* Adicione isso */
+      z-index: 10;        /* Adicione isso */
       max-width: 560px;
       margin: 0 auto;
       padding: 28px 20px 8px;
@@ -105,6 +107,8 @@
 
     /* ── FORM CONTAINER ── */
     .form-container {
+      position: relative; /* Adicione isso */
+      z-index: 10;        /* Adicione isso */
       max-width: 560px;
       margin: 0 auto;
       padding: 8px 20px 0;
@@ -213,72 +217,72 @@
       <div class="q-step">Pergunta 1 de 8</div>
       <div class="q-title">Qual é o setor da sua empresa?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Indústria / Fábrica</button>
-        <button class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Comércio / Varejo</button>
-        <button class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Logística / Transporte</button>
-        <button class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Alimentação / Restaurante</button>
-        <button class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Serviços / Manutenção</button>
-        <button class="option outro-trigger" onclick="selectOption(this,'emp-q1',true)"><div class="option-radio"></div>Outro</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Indústria / Fábrica</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Comércio / Varejo</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Logística / Transporte</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Alimentação / Restaurante</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q1')"><div class="option-radio"></div>Serviços / Manutenção</button>
+        <button type="button" class="option outro-trigger" onclick="selectOption(this,'emp-q1',true)"><div class="option-radio"></div>Outro</button>
       </div>
       <input type="text" class="other-input" id="emp-q1-other" placeholder="Qual setor?">
       <div class="error-message">Selecione uma opção para continuar.</div>
-      <div class="nav-btns"><button class="btn-next" onclick="nextCard('emp',1,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-next" onclick="nextCard('emp',1,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="emp-q2">
       <div class="q-step">Pergunta 2 de 8</div>
       <div class="q-title">Quantos funcionários CLT você tem?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>1 a 10</button>
-        <button class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>11 a 30</button>
-        <button class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>31 a 80</button>
-        <button class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>81 a 200</button>
-        <button class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>Mais de 200</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>1 a 10</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>11 a 30</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>31 a 80</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>81 a 200</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q2')"><div class="option-radio"></div>Mais de 200</button>
       </div>
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('emp',2)">Voltar</button><button class="btn-next" onclick="nextCard('emp',2,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('emp',2)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('emp',2,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="emp-q3">
       <div class="q-step">Pergunta 3 de 8</div>
       <div class="q-title">Quantos funcionários você perdeu nos últimos 12 meses?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>Nenhum</button>
-        <button class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>1 a 3</button>
-        <button class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>4 a 8</button>
-        <button class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>9 a 15</button>
-        <button class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>Mais de 15</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>Nenhum</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>1 a 3</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>4 a 8</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>9 a 15</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q3')"><div class="option-radio"></div>Mais de 15</button>
       </div>
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('emp',3)">Voltar</button><button class="btn-next" onclick="nextCard('emp',3,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('emp',3)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('emp',3,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="emp-q4">
       <div class="q-step">Pergunta 4 de 8</div>
       <div class="q-title">Com frequência funcionários te pedem adiantamento de salário?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'emp-q4')"><div class="option-radio"></div>Nunca acontece</button>
-        <button class="option" onclick="selectOption(this,'emp-q4')"><div class="option-radio"></div>Raramente - menos de 1 vez po mês</button>
-        <button class="option" onclick="selectOption(this,'emp-q4')"><div class="option-radio"></div>Às vezes - 2 a 4 vezes por mês </button>
-        <button class="option" onclick="selectOption(this,'emp-q4')"><div class="option-radio"></div>Com frequência - mais de 4 vezes por mês</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q4')"><div class="option-radio"></div>Nunca acontece</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q4')"><div class="option-radio"></div>Raramente - menos de 1 vez po mês</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q4')"><div class="option-radio"></div>Às vezes - 2 a 4 vezes por mês </button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q4')"><div class="option-radio"></div>Com frequência - mais de 4 vezes por mês</button>
       </div>
       <div class="error-message">Responda para avançar.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('emp',4)">Voltar</button><button class="btn-next" onclick="nextCard('emp',4,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('emp',4)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('emp',4,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="emp-q5">
       <div class="q-step">Pergunta 5 de 8</div>
       <div class="q-title">Como você costuma registrar esses adiantamentos?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'emp-q5')"><div class="option-radio"></div>Sistema de folha</button>
-        <button class="option" onclick="selectOption(this,'emp-q5')"><div class="option-radio"></div>Planilha própria</button>
-        <button class="option" onclick="selectOption(this,'emp-q5')"><div class="option-radio"></div>WhatsApp / Verbal</button>
-        <button class="option" onclick="selectOption(this,'emp-q5')"><div class="option-radio"></div>Não costumo registrar</button>
-        <button class="option outro-trigger" onclick="selectOption(this,'emp-q5',true)"><div class="option-radio"></div>Outro</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q5')"><div class="option-radio"></div>Sistema de folha</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q5')"><div class="option-radio"></div>Planilha própria</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q5')"><div class="option-radio"></div>WhatsApp / Verbal</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q5')"><div class="option-radio"></div>Não costumo registrar</button>
+        <button type="button" class="option outro-trigger" onclick="selectOption(this,'emp-q5',true)"><div class="option-radio"></div>Outro</button>
       </div>
       <input type="text" class="other-input" id="emp-q5-other" placeholder="Como registra?">
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('emp',5)">Voltar</button><button class="btn-next" onclick="nextCard('emp',5,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('emp',5)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('emp',5,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="emp-q6">
@@ -286,28 +290,28 @@
       <div class="q-title">Se seus funcionários pudessem acessar o salário já ganho antes do pagamento, sem você precisar adiantar dinheiro — você ofereceria como benefício?</div>
       <div class="q-hint">Funcionaria como um app que o funcionário usa direto, sem você precisar fazer nada</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Sim, com certeza</button>
-        <button class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Provavelmente sim</button>
-        <button class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Talvez - dependeria do custo</button>
-        <button class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Provavelmente não</button>
-        <button class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Não</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Sim, com certeza</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Provavelmente sim</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Talvez - dependeria do custo</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Provavelmente não</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q6')"><div class="option-radio"></div>Não</button>
       </div>
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('emp',6)">Voltar</button><button class="btn-next" onclick="nextCard('emp',6,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('emp',6)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('emp',6,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="emp-q7">
       <div class="q-step">Pergunta 7 de 8</div>
       <div class="q-title">Quanto você pagaria por mês por esse serviço?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>Nada - só se fosse gratuito</button>
-        <button class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>Até R$ 10 por funcionário/mês</button>
-        <button class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>De R$ 10 a R$ 20 por funcionário/mês</button>
-        <button class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>De R$ 20 a R$ 30 por funcionário/mês</button>
-        <button class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>Mais de R$ 30 por funcionário/mês</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>Nada - só se fosse gratuito</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>Até R$ 10 por funcionário/mês</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>De R$ 10 a R$ 20 por funcionário/mês</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>De R$ 20 a R$ 30 por funcionário/mês</button>
+        <button type="button" class="option" onclick="selectOption(this,'emp-q7')"><div class="option-radio"></div>Mais de R$ 30 por funcionário/mês</button>
       </div>
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('emp',7)">Voltar</button><button class="btn-next" onclick="nextCard('emp',7,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('emp',7)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('emp',7,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="emp-q8">
@@ -315,7 +319,7 @@
       <div class="q-title">Quer ser avisado quando o produto estiver pronto para testar? (Primeiros 3 a solicitarem não pagarão os primeiros 2 meses de teste)</div>
       <div class="q-hint">Opcional — WhatsApp</div>
       <input type="tel" class="short-input" id="emp-phone" placeholder="(00) 00000-0000">
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('emp',8)">Voltar</button><button class="btn-next" id="emp-submit" onclick="submitForm('empresa')">Concluir</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('emp',8)">Voltar</button><button type="button" class="btn-next" id="emp-submit" onclick="submitForm('empresa')">Concluir</button></div>
     </div>
   </div>
 
@@ -329,28 +333,28 @@
       <div class="q-step">Pergunta 1 de 8</div>
       <div class="q-title">Qual é o seu setor de trabalho?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Indústria / Fábrica</button>
-        <button class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Comércio / Varejo</button>
-        <button class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Logística / Transporte</button>
-        <button class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Alimentação / Restaurante</button>
-        <button class="option outro-trigger" onclick="selectOption(this,'fun-q1',true)"><div class="option-radio"></div>Outro</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Indústria / Fábrica</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Comércio / Varejo</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Logística / Transporte</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q1')"><div class="option-radio"></div>Alimentação / Restaurante</button>
+        <button type="button" class="option outro-trigger" onclick="selectOption(this,'fun-q1',true)"><div class="option-radio"></div>Outro</button>
       </div>
       <input type="text" class="other-input" id="fun-q1-other" placeholder="Qual setor?">
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-next" onclick="nextCard('fun',1,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-next" onclick="nextCard('fun',1,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="fun-q2">
       <div class="q-step">Pergunta 2 de 8</div>
       <div class="q-title">Seu salário costuma durar o mês inteiro?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'fun-q2')"><div class="option-radio"></div>Sim, sempre sobra um pouco</button>
-        <button class="option" onclick="selectOption(this,'fun-q2')"><div class="option-radio"></div>Sim, mas fica no limite</button>
-        <button class="option" onclick="selectOption(this,'fun-q2')"><div class="option-radio"></div>Não, acaba antes do dia 20</button>
-        <button class="option" onclick="selectOption(this,'fun-q2')"><div class="option-radio"></div>Não, acaba antes do dia 15</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q2')"><div class="option-radio"></div>Sim, sempre sobra um pouco</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q2')"><div class="option-radio"></div>Sim, mas fica no limite</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q2')"><div class="option-radio"></div>Não, acaba antes do dia 20</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q2')"><div class="option-radio"></div>Não, acaba antes do dia 15</button>
       </div>
       <div class="error-message">Responda para continuar.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('fun',2)">Voltar</button><button class="btn-next" onclick="nextCard('fun',2,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('fun',2)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('fun',2,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="fun-q3">
@@ -358,42 +362,42 @@
       <div class="q-title">Quando aparece um gasto inesperado, o que você faz?</div>
       <div class="q-hint">Selecione a alternativa que você usa com mais frequência</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Uso a reserva de emergência</button>
-        <button class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Cartão de crédito</button>
-        <button class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Peço emprestado à família ou amigo</button>
-        <button class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Peço adiantamento ao chefe</button>
-        <button class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Pego empréstimo no banco ou fintech</button>
-        <button class="option outro-trigger" onclick="selectOption(this,'fun-q3',true)"><div class="option-radio"></div>Outro</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Uso a reserva de emergência</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Cartão de crédito</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Peço emprestado à família ou amigo</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Peço adiantamento ao chefe</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q3')"><div class="option-radio"></div>Pego empréstimo no banco ou fintech</button>
+        <button type="button" class="option outro-trigger" onclick="selectOption(this,'fun-q3',true)"><div class="option-radio"></div>Outro</button>
       </div>
       <input type="text" class="other-input" id="fun-q3-other" placeholder="O que faz?">
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('fun',3)">Voltar</button><button class="btn-next" onclick="nextCard('fun',3,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('fun',3)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('fun',3,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="fun-q4">
       <div class="q-step">Pergunta 4 de 8</div>
       <div class="q-title">Já pediu adiantamento de salário alguma vez?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'fun-q4')"><div class="option-radio"></div>Sim, várias vezes</button>
-        <button class="option" onclick="selectOption(this,'fun-q4')"><div class="option-radio"></div>Sim, uma vez</button>
-        <button class="option" onclick="selectOption(this,'fun-q4')"><div class="option-radio"></div>Nunca pedi, mas já pensei</button>
-        <button class="option" onclick="selectOption(this,'fun-q4')"><div class="option-radio"></div>Nunca precisei</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q4')"><div class="option-radio"></div>Sim, várias vezes</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q4')"><div class="option-radio"></div>Sim, uma vez</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q4')"><div class="option-radio"></div>Nunca pedi, mas já pensei</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q4')"><div class="option-radio"></div>Nunca precisei</button>
       </div>
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('fun',4)">Voltar</button><button class="btn-next" onclick="nextCard('fun',4,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('fun',4)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('fun',4,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="fun-q5">
       <div class="q-step">Pergunta 5 de 8</div>
       <div class="q-title">Como se sente (ou sentiria) ao pedir adiantamento?</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'fun-q5')"><div class="option-radio"></div>Normal</button>
-        <button class="option" onclick="selectOption(this,'fun-q5')"><div class="option-radio"></div>Um pouco desconfortável</button>
-        <button class="option" onclick="selectOption(this,'fun-q5')"><div class="option-radio"></div>Bastante constrangedor</button>
-        <button class="option" onclick="selectOption(this,'fun-q5')"><div class="option-radio"></div>Prefiro não pedir</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q5')"><div class="option-radio"></div>Normal</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q5')"><div class="option-radio"></div>Um pouco desconfortável</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q5')"><div class="option-radio"></div>Bastante constrangedor</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q5')"><div class="option-radio"></div>Prefiro não pedir</button>
       </div>
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('fun',5)">Voltar</button><button class="btn-next" onclick="nextCard('fun',5,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('fun',5)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('fun',5,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="fun-q6">
@@ -401,14 +405,14 @@
       <div class="q-title">Tá curto esse mês? E se você pudesse acessar o salário que já ganhou sem envolver o chefe?</div>
       <div class="q-hint">Sem empréstimo. Só o que já é seu.</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Sim, usaria sempre que precisasse</button>
-        <button class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Provavelmente sim</button>
-        <button class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Talvez - dependeria da taxa</button>
-        <button class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Provavelmente não</button>
-        <button class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Não usaria</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Sim, usaria sempre que precisasse</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Provavelmente sim</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Talvez - dependeria da taxa</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Provavelmente não</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q6')"><div class="option-radio"></div>Não usaria</button>
       </div>
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('fun',6)">Voltar</button><button class="btn-next" onclick="nextCard('fun',6,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('fun',6)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('fun',6,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="fun-q7">
@@ -416,14 +420,14 @@
       <div class="q-title">Quanto você pagaria de taxa para antecipar R$ 500 do seu salário?</div>
       <div class="q-hint">O cartão rotativo cobra em média R$ 200 de juros por mês</div>
       <div class="options">
-        <button class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>Nada - Só se fosse grátis</button>
-        <button class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>Até R$ 10</button>
-        <button class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>De R$ 10 a R$ 25</button>
-        <button class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>De R$ 25 a R$ 40</button>
-        <button class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>Mais de R$ 40</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>Nada - Só se fosse grátis</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>Até R$ 10</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>De R$ 10 a R$ 25</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>De R$ 25 a R$ 40</button>
+        <button type="button" class="option" onclick="selectOption(this,'fun-q7')"><div class="option-radio"></div>Mais de R$ 40</button>
       </div>
       <div class="error-message">Selecione uma opção.</div>
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('fun',7)">Voltar</button><button class="btn-next" onclick="nextCard('fun',7,8)">Próxima</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('fun',7)">Voltar</button><button type="button" class="btn-next" onclick="nextCard('fun',7,8)">Próxima</button></div>
     </div>
 
     <div class="q-card" id="fun-q8">
@@ -431,7 +435,7 @@
       <div class="q-title">Quer ser avisado quando o app estiver disponível?</div>
       <div class="q-hint">Opcional — WhatsApp</div>
       <input type="tel" class="short-input" id="fun-phone" placeholder="Seu WhatsApp">
-      <div class="nav-btns"><button class="btn-back" onclick="prevCard('fun',8)">Voltar</button><button class="btn-next" id="fun-submit" onclick="submitForm('funcionario')">Enviar</button></div>
+      <div class="nav-btns"><button type="button" class="btn-back" onclick="prevCard('fun',8)">Voltar</button><button type="button" class="btn-next" id="fun-submit" onclick="submitForm('funcionario')">Enviar</button></div>
     </div>
   </div>
 
