@@ -105,6 +105,20 @@
     .tab-title { font-weight: 700; font-size: 14px; color: var(--navy); }
     .tab-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
 
+    /* Garante que os botões respondam ao toque no iPhone */
+    .option, .tab-btn, .btn-next, .btn-back {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent; /* Remove o quadrado cinza ao tocar */
+      touch-action: manipulation; /* Otimiza para cliques rápidos */
+    }
+
+/* Força o contexto de empilhamento para evitar que o Hero cubra os botões */
+    .selector, .form-container {
+      position: relative;
+      z-index: 20 !important;
+      transform: translateZ(0); /* Truque para o Safari renderizar a camada corretamente */
+    }
+
     /* ── FORM CONTAINER ── */
     .form-container {
       position: relative; /* Adicione isso */
@@ -441,23 +455,23 @@
 
   <div class="thankyou" id="thank-msg">
     <h2>Recebido!</h2>
-    <p>Suas respostas são valiosas. Estamos construindo algo para ajudar trabalhadores como você a ter mais controle do próprio dinheiro.</p>
+    <p>Suas respostas são valiosas. Estamos construindo algo para ajudar trabalhadores e empregadores a terem uma melhor relação com salário.</p>
   </div>
 </div>
 
 <script>
-  // 1. Seleção de perfil (Empresa ou Funcionário)
   function selectTab(type) {
     const selector = document.getElementById('main-selector');
     if(selector.classList.contains('locked')) return;
 
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + type).classList.add('active');
+    const targetTab = document.getElementById('tab-' + type);
+    if(targetTab) targetTab.classList.add('active');
+    
     document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('form-' + type).classList.add('active');
   }
 
-  // 2. Seleção de opções dentro dos cards
   function selectOption(btn, cardId, isOther) {
     const card = document.getElementById(cardId);
     card.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
@@ -478,7 +492,6 @@
     }
   }
 
-  // 3. Avançar para a próxima pergunta (CORRIGIDO)
   function nextCard(prefix, current, total) {
     const cardId = prefix + '-q' + current;
     const card = document.getElementById(cardId);
@@ -486,7 +499,6 @@
     const otherInput = document.getElementById(cardId + '-other');
     
     let isValid = false;
-    // Validação
     if (selected) {
       if (selected.classList.contains('outro-trigger')) {
         if (otherInput && otherInput.value.trim() !== "") isValid = true;
@@ -502,12 +514,10 @@
       return; 
     }
 
-    // Bloqueia o seletor de perfil após a primeira resposta
     if(current === 1) {
       document.getElementById('main-selector').classList.add('locked');
     }
 
-    // Troca de card
     card.classList.remove('visible');
     const next = document.getElementById(prefix + '-q' + (current + 1));
     if (next) {
@@ -516,20 +526,19 @@
     }
   }
 
-  // 4. Voltar para pergunta anterior
   function prevCard(prefix, current) {
     document.getElementById(prefix + '-q' + current).classList.remove('visible');
     document.getElementById(prefix + '-q' + (current - 1)).classList.add('visible');
     updateProgress(prefix, current - 1, 8);
   }
 
-  // 5. Atualizar barra de progresso
   function updateProgress(prefix, current, total) {
-    document.getElementById(prefix + '-progress-bar').style.width = (current / total * 100) + '%';
-    document.getElementById(prefix + '-progress-count').textContent = current + ' de ' + total;
+    const bar = document.getElementById(prefix + '-progress-bar');
+    const count = document.getElementById(prefix + '-progress-count');
+    if(bar) bar.style.width = (current / total * 100) + '%';
+    if(count) count.textContent = current + ' de ' + total;
   }
 
-  // 6. Enviar dados para o Google Sheets (CORRIGIDO PARA FUNCIONAR TODAS AS COLUNAS)
   async function submitForm(type) {
     const prefix = type === 'empresa' ? 'emp' : 'fun';
     const btn = document.getElementById(prefix + '-submit');
@@ -549,28 +558,31 @@
     btn.textContent = 'Enviando...';
     btn.disabled = true;
 
+    // URL do seu Script (Mantenha a sua aqui)
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzicWV3E2pjO_eC9CstlLIqyLTwgNWEbOqINd-9muNEf3L9fNppcVdm-WKSwsg40VQS/exec"; 
 
-    // Usando URLSearchParams para garantir que o Google Apps Script receba os dados
     const formData = new URLSearchParams();
     for (const key in rawData) {
       formData.append(key, rawData[key]);
     }
 
     try {
-      await fetch(SCRIPT_URL, {
+      // O Safari lida melhor com o envio se não tentarmos ler a resposta (já que usamos no-cors)
+      fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         body: formData.toString(),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
       
-      document.getElementById('form-' + type).style.display = 'none';
-      document.querySelector('.selector').style.display = 'none';
-      document.querySelector('.hero').style.paddingBottom = '60px'; // Ajuste visual
-      document.getElementById('thank-msg').classList.add('visible');
+      // No modo 'no-cors', o fetch não "espera" o sucesso, então avançamos após um pequeno delay
+      setTimeout(() => {
+        document.getElementById('form-' + type).style.display = 'none';
+        document.querySelector('.selector').style.display = 'none';
+        document.getElementById('thank-msg').classList.add('visible');
+      }, 600);
+
     } catch (e) {
-      console.error(e);
       btn.textContent = 'Erro ao enviar';
       btn.disabled = false;
     }
