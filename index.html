@@ -446,6 +446,7 @@
 </div>
 
 <script>
+  // 1. Seleção de perfil (Empresa ou Funcionário)
   function selectTab(type) {
     const selector = document.getElementById('main-selector');
     if(selector.classList.contains('locked')) return;
@@ -456,6 +457,7 @@
     document.getElementById('form-' + type).classList.add('active');
   }
 
+  // 2. Seleção de opções dentro dos cards
   function selectOption(btn, cardId, isOther) {
     const card = document.getElementById(cardId);
     card.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
@@ -466,11 +468,17 @@
 
     const otherEl = document.getElementById(cardId + '-other');
     if (otherEl) {
-      if (isOther) { otherEl.classList.add('visible'); otherEl.focus(); }
-      else { otherEl.classList.remove('visible'); otherEl.value = ''; }
+      if (isOther) { 
+        otherEl.classList.add('visible'); 
+        otherEl.focus(); 
+      } else { 
+        otherEl.classList.remove('visible'); 
+        otherEl.value = ''; 
+      }
     }
   }
 
+  // 3. Avançar para a próxima pergunta (CORRIGIDO)
   function nextCard(prefix, current, total) {
     const cardId = prefix + '-q' + current;
     const card = document.getElementById(cardId);
@@ -478,6 +486,7 @@
     const otherInput = document.getElementById(cardId + '-other');
     
     let isValid = false;
+    // Validação
     if (selected) {
       if (selected.classList.contains('outro-trigger')) {
         if (otherInput && otherInput.value.trim() !== "") isValid = true;
@@ -493,83 +502,79 @@
       return; 
     }
 
+    // Bloqueia o seletor de perfil após a primeira resposta
     if(current === 1) {
       document.getElementById('main-selector').classList.add('locked');
     }
 
+    // Troca de card
     card.classList.remove('visible');
     const next = document.getElementById(prefix + '-q' + (current + 1));
     if (next) {
       next.classList.add('visible');
       updateProgress(prefix, current + 1, total);
-      // Removido o window.scrollTo para manter a posição atual
-    }
-  }
-    // BLOQUEIA O SELETOR AO AVANÇAR DA Q1
-    if(current === 1) {
-      document.getElementById('main-selector').classList.add('locked');
-    }
-
-    card.classList.remove('visible');
-    const next = document.getElementById(prefix + '-q' + (current + 1));
-    if (next) {
-      next.classList.add('visible');
-      updateProgress(prefix, current + 1, total);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
+  // 4. Voltar para pergunta anterior
   function prevCard(prefix, current) {
     document.getElementById(prefix + '-q' + current).classList.remove('visible');
     document.getElementById(prefix + '-q' + (current - 1)).classList.add('visible');
     updateProgress(prefix, current - 1, 8);
   }
 
+  // 5. Atualizar barra de progresso
   function updateProgress(prefix, current, total) {
     document.getElementById(prefix + '-progress-bar').style.width = (current / total * 100) + '%';
     document.getElementById(prefix + '-progress-count').textContent = current + ' de ' + total;
   }
 
+  // 6. Enviar dados para o Google Sheets (CORRIGIDO PARA FUNCIONAR TODAS AS COLUNAS)
   async function submitForm(type) {
     const prefix = type === 'empresa' ? 'emp' : 'fun';
     const btn = document.getElementById(prefix + '-submit');
     
-    // Coleta dos dados para as colunas exatas da planilha
-    const formData = {
+    const rawData = {
       perfil: type,
-      q1_setor: document.querySelector(`#${prefix}-q1 .option.selected`)?.innerText || document.getElementById(`${prefix}-q1-other`)?.value,
-      q2_funcionarios: document.querySelector(`#${prefix}-q2 .option.selected`)?.innerText,
-      q3_turnover: document.querySelector(`#${prefix}-q3 .option.selected`)?.innerText,
-      q4_adiantamento: document.querySelector(`#${prefix}-q4 .option.selected`)?.innerText,
-      q5_registro: document.querySelector(`#${prefix}-q5 .option.selected`)?.innerText || document.getElementById(`${prefix}-q5-other`)?.value,
-      q6_interesse: document.querySelector(`#${prefix}-q6 .option.selected`)?.innerText,
-      q7_preco: document.querySelector(`#${prefix}-q7 .option.selected`)?.innerText,
-      whatsapp: document.getElementById(`${prefix}-phone`).value
+      q1_setor: document.querySelector(`#${prefix}-q1 .option.selected`)?.innerText || document.getElementById(`${prefix}-q1-other`)?.value || "",
+      q2_funcionarios: document.querySelector(`#${prefix}-q2 .option.selected`)?.innerText || "",
+      q3_turnover: document.querySelector(`#${prefix}-q3 .option.selected`)?.innerText || "",
+      q4_adiantamento: document.querySelector(`#${prefix}-q4 .option.selected`)?.innerText || "",
+      q5_registro: document.querySelector(`#${prefix}-q5 .option.selected`)?.innerText || document.getElementById(`${prefix}-q5-other`)?.value || "",
+      q6_interesse: document.querySelector(`#${prefix}-q6 .option.selected`)?.innerText || "",
+      q7_preco: document.querySelector(`#${prefix}-q7 .option.selected`)?.innerText || "",
+      whatsapp: document.getElementById(`${prefix}-phone`).value || ""
     };
 
     btn.textContent = 'Enviando...';
     btn.disabled = true;
 
-    // SUBSTITUA ABAIXO PELA SUA URL DO GOOGLE SCRIPT
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzicWV3E2pjO_eC9CstlLIqyLTwgNWEbOqINd-9muNEf3L9fNppcVdm-WKSwsg40VQS/exec"; 
+
+    // Usando URLSearchParams para garantir que o Google Apps Script receba os dados
+    const formData = new URLSearchParams();
+    for (const key in rawData) {
+      formData.append(key, rawData[key]);
+    }
 
     try {
       await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: formData.toString(),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
       
       document.getElementById('form-' + type).style.display = 'none';
       document.querySelector('.selector').style.display = 'none';
+      document.querySelector('.hero').style.paddingBottom = '60px'; // Ajuste visual
       document.getElementById('thank-msg').classList.add('visible');
     } catch (e) {
+      console.error(e);
       btn.textContent = 'Erro ao enviar';
       btn.disabled = false;
     }
   }
 </script>
-
 </body>
 </html>
